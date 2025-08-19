@@ -30,19 +30,19 @@ export class GildedRose {
       return;
     }
 
-    if (item.name === 'Aged Brie' || item.name === 'Backstage passes to a TAFKAL80ETC concert') {
+
+    if (item.name === 'Aged Brie') {
+      this.increaseQuality(item, 1);
+    } else if (item.name === 'Backstage passes to a TAFKAL80ETC concert') {
+      if (item.sellIn < 11 && item.sellIn >= 6) {
+        this.increaseQuality(item, 2);
+      } else if (item.sellIn < 6 && item.sellIn >= 0) {
+        this.increaseQuality(item, 3);
+      } else {
         this.increaseQuality(item, 1);
-        if (item.name == 'Backstage passes to a TAFKAL80ETC concert') {
-          if (item.sellIn < 11) {
-            this.increaseQuality(item, 1);
-          }
-          if (item.sellIn < 6) {
-            this.increaseQuality(item, 1);
-          }
-        }
-      
+      }
     } else {
-     this.decreaseQuality(item, 1);
+      this.decreaseQuality(item, 1);
     }
 
     item.sellIn = item.sellIn - 1;
@@ -62,7 +62,7 @@ export class GildedRose {
 
   private increaseQuality(item: Item, amount: number) {
     if (item.quality < 50) {
-      item.quality = item.quality + amount;
+      item.quality = Math.min(50, item.quality + amount);
     }
   }
 
