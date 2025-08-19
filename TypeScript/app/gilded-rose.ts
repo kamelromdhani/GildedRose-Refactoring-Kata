@@ -68,7 +68,7 @@ export class GildedRose {
 
   private decreaseQuality(item: Item, amount: number) {
     if (item.quality > 0) {
-      item.quality = item.quality - amount;
+      item.quality = Math.min(0, item.quality - amount);
     }
   }
 }
