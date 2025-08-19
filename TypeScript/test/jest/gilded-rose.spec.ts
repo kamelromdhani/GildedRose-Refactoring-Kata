@@ -65,9 +65,22 @@ describe('Gilded Rose', () => {
     });
   });
 
+  describe('Sulfuras', () => {
+    it('should not change sellIn or quality', () => {
+      const gildedRose = new GildedRose([new Item('Sulfuras, Hand of Ragnaros', 0, 80)]);
+      gildedRose.updateQuality();
+      expect(gildedRose.items[0]).toEqual({
+        name: 'Sulfuras, Hand of Ragnaros',
+        sellIn: 0,
+        quality: 80,
+      });
+    });
+  });
+
   it('should foo', () => {
     const gildedRose = new GildedRose([new Item('foo', 0, 0)]);
     const items = gildedRose.updateQuality();
     expect(items[0].name).toBe('foo');
   });
 });
+
