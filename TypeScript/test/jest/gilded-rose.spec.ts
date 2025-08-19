@@ -33,6 +33,38 @@ describe('Gilded Rose', () => {
     });
   });
 
+    describe('Aged Brie', () => {
+    it('should decrease sellIn and increase quality by 1 when sellIn >= 0', () => {
+      const gildedRose = new GildedRose([new Item('Aged Brie', 5, 10)]);
+      gildedRose.updateQuality();
+      expect(gildedRose.items[0]).toEqual({
+        name: 'Aged Brie',
+        sellIn: 4,
+        quality: 11,
+      });
+    });
+
+    it('should increase quality by 2 when sellIn < 0', () => {
+      const gildedRose = new GildedRose([new Item('Aged Brie', 0, 10)]);
+      gildedRose.updateQuality();
+      expect(gildedRose.items[0]).toEqual({
+        name: 'Aged Brie',
+        sellIn: -1,
+        quality: 12,
+      });
+    });
+
+    it('should not increase quality above 50', () => {
+      const gildedRose = new GildedRose([new Item('Aged Brie', 5, 50)]);
+      gildedRose.updateQuality();
+      expect(gildedRose.items[0]).toEqual({
+        name: 'Aged Brie',
+        sellIn: 4,
+        quality: 50,
+      });
+    });
+  });
+
   it('should foo', () => {
     const gildedRose = new GildedRose([new Item('foo', 0, 0)]);
     const items = gildedRose.updateQuality();
