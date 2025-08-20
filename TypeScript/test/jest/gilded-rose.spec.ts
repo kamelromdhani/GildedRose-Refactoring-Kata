@@ -31,6 +31,8 @@ describe('Gilded Rose', () => {
         quality: 0,
       });
     });
+
+    
   });
 
     describe('Aged Brie', () => {
@@ -125,6 +127,38 @@ describe('Gilded Rose', () => {
         name: 'Backstage passes to a TAFKAL80ETC concert',
         sellIn: 4,
         quality: 50,
+      });
+    });
+  });
+
+  describe('Conjured Items', () => {
+    it('should decrease sellIn and quality by 2 when sellIn >= 0', () => {
+      const gildedRose = new GildedRose([new Item('Conjured Mana Cake', 5, 10)]);
+      gildedRose.updateQuality();
+      expect(gildedRose.items[0]).toEqual({
+        name: 'Conjured Mana Cake',
+        sellIn: 4,
+        quality: 8,
+      });
+    });
+
+    it('should decrease quality by 4 when sellIn < 0', () => {
+      const gildedRose = new GildedRose([new Item('Conjured Mana Cake', 0, 10)]);
+      gildedRose.updateQuality();
+      expect(gildedRose.items[0]).toEqual({
+        name: 'Conjured Mana Cake',
+        sellIn: -1,
+        quality: 6,
+      });
+    });
+
+    it('should not decrease quality below 0', () => {
+      const gildedRose = new GildedRose([new Item('Conjured Mana Cake', 5, 1)]);
+      gildedRose.updateQuality();
+      expect(gildedRose.items[0]).toEqual({
+        name: 'Conjured Mana Cake',
+        sellIn: 4,
+        quality: 0,
       });
     });
   });
