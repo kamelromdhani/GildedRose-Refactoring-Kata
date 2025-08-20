@@ -41,7 +41,7 @@ export class GildedRose {
       } else {
         this.increaseQuality(item, 1);
       }
-    } else if (item.name === 'Conjured') {
+    } else if (item.name.startsWith('Conjured')) {
       this.decreaseQuality(item, 2);
     } else {
       this.decreaseQuality(item, 1);
@@ -54,7 +54,7 @@ export class GildedRose {
         this.increaseQuality(item, 1);
       } else if (item.name === 'Backstage passes to a TAFKAL80ETC concert') {
         item.quality = 0;
-      } else if (item.name === 'Conjured') {
+      } else if (item.name.startsWith('Conjured')) {
         this.decreaseQuality(item, 2);
       } else {
         this.decreaseQuality(item, 1);
