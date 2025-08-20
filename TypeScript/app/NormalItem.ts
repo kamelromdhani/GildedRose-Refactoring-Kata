@@ -1,6 +1,6 @@
 import { UpdatableItem } from "./UpdatableItem";
 
-class NormalItem extends UpdatableItem {
+export class NormalItem extends UpdatableItem {
   update(): void {
     this.decreaseQuality(1);
     this.sellIn = this.sellIn - 1;

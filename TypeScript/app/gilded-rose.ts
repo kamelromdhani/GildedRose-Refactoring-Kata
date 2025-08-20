@@ -1,68 +1,41 @@
 import { Item } from '@/Item';
+import { UpdatableItem } from './UpdatableItem';
+import { AgedBrie } from './AgedBrie';
+import { BackstagePass } from './BackstagePass';
+import { Sulfuras } from './Sulfuras';
+import { Conjured } from './Conjured';
+import { NormalItem } from './NormalItem';
 
 export class GildedRose {
   items: Array<Item>;
+  private updatableItems: Array<UpdatableItem>;
 
   constructor(items = [] as Array<Item>) {
     this.items = items;
+     this.updatableItems = items.map(GildedRose.wrapItem);
+  }
+
+  static wrapItem(item: Item): UpdatableItem {
+    switch (item.name) {
+      case 'Aged Brie':
+        return new AgedBrie(item);
+      case 'Backstage passes to a TAFKAL80ETC concert':
+        return new BackstagePass(item);
+      case 'Sulfuras, Hand of Ragnaros':
+        return new Sulfuras(item);
+      default:
+        if (item.name.startsWith('Conjured')) {
+          return new Conjured(item);
+        }
+        return new NormalItem(item);
+    }
   }
 
   updateQuality() {
-    for (const item of this.items) {
-      this.updateItem(item)
+    for (const item of this.updatableItems) {
+      item.update();
     }
-
     return this.items;
   }
 
-  private updateItem(item: Item): void {
-    if (item.name === 'Sulfuras, Hand of Ragnaros') {
-      return;
-    }
-
-
-    if (item.name === 'Aged Brie') {
-      this.increaseQuality(item, 1);
-    } else if (item.name === 'Backstage passes to a TAFKAL80ETC concert') {
-      if (item.sellIn < 11 && item.sellIn >= 6) {
-        this.increaseQuality(item, 2);
-      } else if (item.sellIn < 6 && item.sellIn >= 0) {
-        this.increaseQuality(item, 3);
-      } else {
-        this.increaseQuality(item, 1);
-      }
-    } else if (item.name.startsWith('Conjured')) {
-      this.decreaseQuality(item, 2);
-    } else {
-      this.decreaseQuality(item, 1);
-    }
-
-    item.sellIn = item.sellIn - 1;
-
-    if (item.sellIn < 0) {
-      if (item.name === 'Aged Brie') {
-        this.increaseQuality(item, 1);
-      } else if (item.name === 'Backstage passes to a TAFKAL80ETC concert') {
-        item.quality = 0;
-      } else if (item.name.startsWith('Conjured')) {
-        this.decreaseQuality(item, 2);
-      } else {
-        this.decreaseQuality(item, 1);
-      }
-    }
-  }
-
-  private increaseQuality(item: Item, amount: number) {
-    if (item.quality < 50) {
-      item.quality = Math.min(50, item.quality + amount);
-    }
-  }
-
-  private decreaseQuality(item: Item, amount: number) {
-    if (item.quality > 0) {
-      item.quality = Math.max(0, item.quality - amount);
-    }
-  }
 }
-
-
